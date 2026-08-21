@@ -1,3 +1,4 @@
+![Preview do Portfólio](image.png)
 # Portfólio — Gabrielle Mendes
 
 Este repositório contém o código-fonte do meu portfólio pessoal, desenvolvido para apresentar minha trajetória, habilidades e projetos nas áreas de desenvolvimento web e design de interfaces.
