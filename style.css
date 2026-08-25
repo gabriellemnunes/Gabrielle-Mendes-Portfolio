@@ -89,11 +89,36 @@ h2 { font-size: clamp(3.5rem, 6vw, 6rem); }
 .contact-art img { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .contact-star { position: absolute; z-index: 1; inset: 2% -10% auto; color: var(--cream); font-size: clamp(18rem, 30vw, 30rem); line-height: 1; }
 
+.github-projects-section { margin-top: 3rem; }
+.github-projects-section h3 { margin-bottom: 1.5rem; }
+#github-projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+.github-project-card { display: flex; flex-direction: column; gap: .75rem; padding: 1.5rem; border: 1px solid var(--cream); border-radius: 1rem; }
+.github-project-card h3 { margin: 0; }
+.github-project-card p { margin: 0; flex: 1; }
+.github-project-card span { font-size: .85rem; }
+.github-project-card a { text-decoration: none; font-weight: 600; }
+
+.spotify-player { display: flex; align-items: center; gap: .6rem; min-width: 190px; cursor: pointer; outline: none; }
+.spotify-player:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 6px; }
+.spotify-logo { width: 22px; height: 22px; flex-shrink: 0; }
+.spotify-album { position: relative; width: 38px; height: 38px; margin-right: 1rem; flex-shrink: 0; }
+.spotify-cover { display: none; position: relative; z-index: 2; width: 38px; height: 38px; object-fit: cover; border-radius: 6px; }
+.spotify-cover.has-cover { display: block; }
+.spotify-vinyl { position: absolute; z-index: 1; top: 3px; left: 26px; width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle, var(--cream) 0 16%, #111 17% 100%); animation: spotify-spin 4s linear infinite; }
+.spotify-info { display: flex; flex-direction: column; min-width: 0; max-width: 110px; }
+.spotify-info span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+#spotify-track { font-size: .8rem; font-weight: 700; }
+#spotify-artist { font-size: .7rem; opacity: .7; }
+
+@keyframes spotify-spin {
+  to { transform: rotate(360deg); }
+}
 @media (max-width: 1000px) {
   .home-content { grid-template-columns: .8fr 1fr; }
   .about-layout { grid-template-columns: 1fr 1fr; }
   .about-facts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, 1fr); color: var(--cream); background: var(--wine); padding: 1rem; border-radius: var(--radius); }
   .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #github-projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .contact-layout { grid-template-columns: 1fr 1fr; }
   .contact-art { grid-column: 1 / -1; min-height: 360px; }
 }
@@ -106,6 +131,7 @@ h2 { font-size: clamp(3.5rem, 6vw, 6rem); }
   .main-nav { position: absolute; inset: calc(100% + .5rem) 0 auto; display: none; padding: 1.5rem; flex-direction: column; align-items: stretch; background: var(--brown); border-radius: var(--radius); box-shadow: var(--shadow); }
   .main-nav.is-open { display: flex; }
   .home-content, .about-layout, .projects-grid, .contact-layout { grid-template-columns: 1fr; }
+  #github-projects { grid-template-columns: 1fr; }
   .home-content { gap: 0; text-align: center; }
   .home-avatar { max-height: 420px; margin-top: 3rem; }
   .home-copy { margin-inline: auto; }
@@ -118,6 +144,8 @@ h2 { font-size: clamp(3.5rem, 6vw, 6rem); }
   .project-info p { min-height: 0; }
   .contact-details a { grid-template-columns: 72px 1fr; font-size: .85rem; }
   .contact-art { grid-column: auto; }
+  .spotify-player { min-width: 0; }
+  .spotify-info { max-width: 140px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

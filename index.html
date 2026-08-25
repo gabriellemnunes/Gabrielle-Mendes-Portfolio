@@ -19,16 +19,36 @@
     </button>
 
     <nav class="main-nav" id="primary-navigation" aria-label="Navegação principal">
-      <a href="#home">home</a>
-      <a href="#about">about me</a>
-      <a href="#projects">projects</a>
-      <a href="#contact">contact</a>
-      <a href="https://github.com/gabriellemnunes"
-   aria-label="GitHub"
-   target="_blank"
-   rel="noopener noreferrer">
+  <a href="#home">home</a>
+  <a href="#about">about me</a>
+  <a href="#projects">projects</a>
+  <a href="#contact">contact</a>
+
+  <div class="spotify-player" id="spotify-login" role="button" tabindex="0" aria-label="Conectar ao Spotify">
+    <img class="spotify-logo"
+      src="./assets/icons/spotify.svg"
+      alt="Spotify">
+
+    <div class="spotify-album">
+      <img id="spotify-cover"
+        class="spotify-cover"
+        alt="Capa do álbum">
+
+      <div class="spotify-vinyl" aria-hidden="true"></div>
+    </div>
+
+    <div class="spotify-info">
+      <span id="spotify-track">Spotify</span>
+      <span id="spotify-artist">Conectar</span>
+    </div>
+  </div>
+
+  <a href="https://github.com/gabriellemnunes"
+    aria-label="GitHub"
+    target="_blank"
+    rel="noopener noreferrer">
     <img src="./assets/icons/github.svg" alt="GitHub">
-</a>
+  </a>
 
 <a href="https://www.linkedin.com/in/gabrielle-mendes-a45684384/" aria-label="LinkedIn">
     <img src="assets/icons/linkedin.svg" alt="">
@@ -134,8 +154,13 @@
             </div>
           </article>
         </div>
-      </div>
-    </section>
+
+          <div class="github-projects-section">
+      <h3>Mais projetos no GitHub</h3>
+      <div id="github-projects"></div>
+    </div>
+  </div>
+</section>
 
     <section id="contact" class="contact-section section">
       <div class="page-width">
