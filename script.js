@@ -72,7 +72,9 @@ if (githubProjects) {
 
 // Spotify API: cole aqui somente o Client ID público. Nunca use o Client Secret.
 const spotifyClientId = 'bd0eaa4b0e964de9b5b528bdd9f9ce5f';
-const spotifyRedirectUri = 'http://127.0.0.1:5500/callback/';
+const spotifyRedirectUri = window.location.hostname === '127.0.0.1'
+  ? 'http://127.0.0.1:5500/callback/'
+  : `${window.location.origin}/callback/`;
 const spotifyScope = 'user-read-currently-playing';
 const spotifyRefreshInterval = 10000;
 
