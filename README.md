@@ -99,4 +99,4 @@ Desenvolvimento web e design de interfaces.
 - GitHub: [gabriellemnunes](https://github.com/gabriellemnunes)
 - LinkedIn: [Gabrielle Mendes](https://www.linkedin.com/in/gabrielle-mendes-a45684384/)
 - E-mail: gabriellemendesn@gmail.com
-- https://gabriellemendesportfolio.netlify.app
+- https://gabimdev.netlify.app/
