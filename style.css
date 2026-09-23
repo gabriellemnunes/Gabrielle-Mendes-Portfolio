@@ -152,3 +152,40 @@ h2 { font-size: clamp(3.5rem, 6vw, 6rem); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
 }
+
+.localizacao {
+    padding: 60px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.localizacao p {
+    margin-bottom: 20px;
+}
+
+#btnLocalizacao {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#resultadoLocalizacao {
+    margin-top: 20px;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+}
+
+#resultadoLocalizacao p {
+    color: #ffffff;
+    margin: 5px 0;
+    text-align: center;
+}
+
+#resultadoLocalizacao strong {
+    color: #ffffff;
+}

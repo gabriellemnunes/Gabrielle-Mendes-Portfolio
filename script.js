@@ -251,3 +251,56 @@ if (spotifyLogin) {
   updateSpotifyPlayer();
   window.setInterval(updateSpotifyPlayer, spotifyRefreshInterval);
 }
+
+const btnLocalizacao = document.getElementById("btnLocalizacao");
+const resultadoLocalizacao = document.getElementById("resultadoLocalizacao");
+
+if (btnLocalizacao && resultadoLocalizacao) {
+
+    btnLocalizacao.addEventListener("click", () => {
+
+        resultadoLocalizacao.innerHTML =
+            "<p>Obtendo sua localização...</p>";
+
+        if (!navigator.geolocation) {
+            resultadoLocalizacao.innerHTML =
+                "<p>Seu navegador não suporta geolocalização.</p>";
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            (posicao) => {
+
+                const latitude = posicao.coords.latitude;
+                const longitude = posicao.coords.longitude;
+
+                resultadoLocalizacao.innerHTML = `
+                    <p><strong>Localização encontrada!</strong></p>
+                    <p>Latitude: ${latitude}</p>
+                    <p>Longitude: ${longitude}</p>
+                `;
+
+            },
+
+            (erro) => {
+
+                console.error("Erro de geolocalização:", erro);
+
+                resultadoLocalizacao.innerHTML = `
+                    <p><strong>Não foi possível obter sua localização.</strong></p>
+                    <p>Código do erro: ${erro.code}</p>
+                    <p>${erro.message}</p>
+                `;
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    });
+
+}
