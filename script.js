@@ -73,6 +73,18 @@ function GithubProjects({ filter }) {
   </>;
 }
 
+// Recurso já existente na versão publicada; a localização fica apenas no navegador.
+function LocationSection() {
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const locate = () => {
+    if (!navigator.geolocation) { setResult({ error: 'Seu navegador não suporta geolocalização.' }); return; }
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(position => { setLoading(false); setResult({ latitude: position.coords.latitude, longitude: position.coords.longitude }); }, error => { setLoading(false); setResult({ error: error.code === 1 ? 'O acesso à localização não foi permitido.' : 'Não foi possível obter sua localização.' }); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+  };
+  return <section id="localizacao" className="localizacao"><h2>Minha localização</h2><p>Clique no botão abaixo para permitir o acesso à sua localização.</p><button id="btnLocalizacao" type="button" onClick={locate} disabled={loading}>{loading ? 'Obtendo localização…' : 'Ver minha localização'}</button><div id="resultadoLocalizacao" role="status">{result && (result.error ? <p>{result.error}</p> : <><p>Localização encontrada!</p><p>Latitude: {result.latitude}</p><p>Longitude: {result.longitude}</p></>)}</div></section>;
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -217,6 +229,7 @@ function App() {
   </div>
 </section>
 
+    <LocationSection />
     <section id="contact" className="contact-section section">
       <div className="page-width">
         <p className="section-kicker">fale comigo</p>

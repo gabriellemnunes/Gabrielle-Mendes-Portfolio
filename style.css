@@ -260,3 +260,9 @@ button { cursor: pointer; }
 
 .main-nav .spotify-player .spotify-cover { width: 38px; height: 38px; }
 .main-nav .spotify-player:hover { transform: none; color: var(--cream); }
+
+.localizacao { padding: 4rem 1.5rem; text-align: center; color: var(--cream); background: var(--dark-brown); }
+.localizacao h2 { font-size: clamp(2rem, 4vw, 3rem); }
+.localizacao p { line-height: 1.6; }
+#btnLocalizacao { padding: .8rem 1.2rem; border: 1px solid var(--cream); border-radius: 999px; background: var(--cream); color: var(--dark-brown); }
+#resultadoLocalizacao { margin-top: 1rem; }
