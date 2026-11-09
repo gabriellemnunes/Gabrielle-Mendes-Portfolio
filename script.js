@@ -37,7 +37,11 @@ const projectPresentation = {
   'backend-recordar': { title: 'Recordar', image: 'recordar.png', description: 'Projeto Recordar, com telas de acesso para usuários, médicos e administradores.' }
 };
 function organizeGithubProjects(data) {
-  const eligible = data.filter(repo => !repo.fork && !repo.archived && !['gabriellemnunes', 'a.p.s---acervo-de-projetos-senac', 'lista-de-tarefas'].includes(repo.name.toLowerCase()));
+  const eligible = data.filter(repo => {
+    const name = repo.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const isAps = name.startsWith('aps') || name.includes('acervodeprojetossenac');
+    return !repo.fork && !repo.archived && !isAps && !['gabriellemnunes', 'listadetarefas'].includes(name);
+  });
   const libraryRepos = eligible.filter(repo => ['biblioteca', 'biblioteca-front'].includes(repo.name.toLowerCase()));
   let libraryAdded = false;
   return eligible.flatMap(repo => {
@@ -117,7 +121,7 @@ function App() {
     document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
     return () => { window.removeEventListener('scroll', scroll); observer.disconnect(); };
   }, []);
-  return <><a className="skip-link" href="#main-content">Pular para o conteúdo</a><header className={`site-header ${scrolled ? "is-scrolled" : ""}`} id="site-header">
+  return <><svg className="image-filter-definitions" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="project-sharpness" colorInterpolationFilters="sRGB"><feConvolveMatrix order="3" kernelMatrix="0 -0.08 0 -0.08 1.32 -0.08 0 -0.08 0" preserveAlpha="true" /></filter></defs></svg><a className="skip-link" href="#main-content">Pular para o conteúdo</a><header className={`site-header ${scrolled ? "is-scrolled" : ""}`} id="site-header">
     <a className="brand" href="#home" aria-label="Ir para o início">
       <strong>Gabrielle Mendes</strong>
       <span>web developer</span>
@@ -281,3 +285,5 @@ function App() {
   </main><footer className="site-footer"><span>© {new Date().getFullYear()} Gabrielle Mendes</span><span className="footer-note">design autoral & um pouco de café <img className="coffee-icon" src="/assets/icons/coffee.svg" alt="" aria-hidden="true" /></span><a className="back-to-top" href="#home">Voltar ao topo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6" /></svg></a></footer></>;
 }
 createRoot(document.getElementById('root')).render(<App />);
+
+
