@@ -284,37 +284,18 @@ button { cursor: pointer; }
 .image-filter-definitions { position: absolute; pointer-events: none; }
 .project-card > img { filter: url(#project-sharpness); }
 
-/* Projetos como um baralho: uma carta ativa, navegação manual. */
-.project-deck { width: min(100%, 650px); margin: 3rem auto 0; }
-.deck-stage { position: relative; isolation: isolate; margin: 0 2.25rem; touch-action: pan-y; cursor: grab; }
-.deck-stage:active { cursor: grabbing; }
-.deck-back { position: absolute; inset: 0; border: 1px solid #dac39f44; border-radius: 18px; display: grid; place-items: center; background: repeating-linear-gradient(45deg, transparent 0 14px, #f7dfb804 14px 15px), #4b281a; pointer-events: none; }
-.deck-back-far { transform: translate(16px, -4px) rotate(4deg); color: #f7dfb833; font-family: var(--font-display); font-size: 5rem; }
-.deck-back-near { transform: translate(-12px, -2px) rotate(-3deg); background-color: #371c16; color: #f7dfb833; font-family: monospace; }
-.deck-accent { color: #ed790055; }
-.deck-current { position: relative; z-index: 2; animation: deal-card .28s ease-out; }
-.deck-current .project-card { border-radius: 16px; border-color: #dac39f55; box-shadow: 0 16px 40px #0005; }
-.deck-current .project-card:hover { transform: none; }
-.deck-current .project-card > img { aspect-ratio: 1.9 / 1; width: 100%; user-select: none; -webkit-user-drag: none; pointer-events: none; }
-.deck-current .project-info { min-height: 290px; padding: 1.75rem 1.75rem 4rem; }
-.deck-current .repository-card .project-info { padding-bottom: 1.75rem; }
-.deck-current .project-info h3 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05; }
-.deck-current .project-info p { min-height: 0; font-size: .95rem; line-height: 1.65; }
-.deck-current .project-link { right: 1.4rem; bottom: 1.25rem; }
-.deck-navigation { display: flex; justify-content: center; align-items: center; gap: 1.75rem; margin-top: 2rem; }
-.deck-arrow { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #dac39f55; background: #f7dfb808; border-radius: 50%; color: var(--cream); transition: background .2s, border-color .2s; }
-.deck-arrow svg { width: 22px; height: 22px; }
-.deck-arrow:hover:not(:disabled) { background: var(--brown); border-color: var(--cream); }
-.deck-arrow:disabled { opacity: .25; cursor: default; }
-.deck-counter { font-family: monospace; font-size: 1rem; letter-spacing: .08em; }
-.deck-counter > span { color: var(--beige); }
-.deck-dots { display: flex; justify-content: center; gap: .15rem; margin-top: .6rem; }
-.deck-dots button { position: relative; width: 28px; height: 28px; padding: 0; background: none; border: 0; }
-.deck-dots button::after { content: ''; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #dac39f55; top: 11px; left: 11px; }
-.deck-dots button[aria-current="true"]::after { background: var(--orange); width: 16px; left: 6px; border-radius: 8px; }
-.deck-hint { text-align: center; font-size: .75rem; letter-spacing: .04em; color: var(--beige); margin: .3rem 0 0; }
-.projects-sync { text-align: center; margin-top: 1.25rem; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-@keyframes deal-card { from { opacity: .4; transform: translateX(calc(var(--deck-direction) * 28px)) rotate(calc(var(--deck-direction) * 1.5deg)); } to { opacity: 1; transform: none; } }
-@media (max-width: 760px) { .project-deck { margin-top: 2.5rem; } .deck-stage { margin-inline: 1rem; } .deck-current .project-info { min-height: 320px; padding: 1.25rem 1.25rem 3.75rem; } .deck-current .repository-card .project-info { padding-bottom: 1.25rem; } .deck-current .project-info h3 { font-size: 2rem; } .deck-current .project-info p { font-size: .9rem; } .deck-back-far { transform: translate(6px, -3px) rotate(2.5deg); } .deck-back-near { transform: translate(-5px, -2px) rotate(-2deg); } }
-@media (prefers-reduced-motion: reduce) { .deck-current { animation: none; } }
+/* Grade compacta inspirada na composição original. */
+.projects-grid { width: min(100%, 1180px); margin: 1.75rem auto 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.15rem; align-items: stretch; }
+.projects-grid .project-card { border-radius: 12px; }
+.projects-grid .project-card > img { aspect-ratio: 1.9 / 1; }
+.projects-grid .project-info { min-height: 235px; padding: 1rem 1rem 3.2rem; }
+.projects-grid .project-info h3 { font-size: clamp(1.45rem, 2vw, 1.9rem); line-height: 1.1; overflow-wrap: anywhere; }
+.projects-grid .project-info p { min-height: 0; font-size: .82rem; line-height: 1.55; }
+.projects-grid .project-tags { gap: .4rem; }
+.projects-grid .project-tags li { font-size: .6rem; padding: .3rem .5rem; }
+.projects-grid .project-link { right: .8rem; bottom: .8rem; font-size: .75rem; }
+.projects-grid .repository-card .project-info { padding-bottom: 1rem; }
+.projects-grid .project-actions { font-size: .75rem; gap: .5rem 1rem; margin-top: 1rem; }
+@media (max-width: 1100px) { .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 850px) { .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .projects-grid { width: min(100%, 360px); grid-template-columns: 1fr; } .projects-grid .project-info { min-height: 0; } }
