@@ -3,7 +3,7 @@
 
 Este repositório contém o código-fonte do meu portfólio pessoal, desenvolvido para apresentar minha trajetória, habilidades e projetos nas áreas de desenvolvimento web e design de interfaces.
 
-O projeto foi baseado em um design autoral criado no Figma e desenvolvido com HTML, CSS e JavaScript.
+O projeto foi baseado em um design autoral criado no Figma e migrado para React, mantendo o design autoral, as imagens e os arquivos principais na raiz.
 
 ## Sobre o portfólio
 
@@ -21,6 +21,8 @@ O site apresenta:
 - HTML5
 - CSS3
 - JavaScript
+- React
+- Vite
 - Figma
 - Design responsivo
 
@@ -59,14 +61,35 @@ Em dispositivos menores, a navegação é transformada em menu hambúrguer e os 
 
 ## Execução local
 
-Para visualizar o projeto localmente:
+Na pasta do projeto, execute:
 
-1. Baixe ou clone os arquivos.
-2. Abra a pasta do projeto no Visual Studio Code.
-3. Abra o arquivo `index.html` em um navegador.
-4. Opcionalmente, utilize a extensão Live Server.
+```sh
+npm install
+npm run dev
+```
 
-A execução local é disponibilizada apenas para visualização, avaliação e apresentação do trabalho.
+Abra o endereço exibido pelo Vite (normalmente http://127.0.0.1:5173). O React agora precisa do Vite; abrir index.html diretamente ou usar Live Server não inicia o app.
+
+Para gerar a versão de produção: `npm run build`. Para conferi-la: `npm run preview`. O Netlify usa o comando de build e a pasta dist, definidos em netlify.toml.
+
+### Organização preservada
+
+index.html, script.js (componentes React), style.css, assets/ e callback/ continuam nos mesmos lugares. Foram adicionados apenas os arquivos de dependências/configuração necessários. Nenhuma pasta src/ foi criada.
+
+### Integrações
+
+- GitHub: consulta os repositórios públicos ordenados pelo push mais recente e exibe até seis cards na mesma grade dos projetos autorais. Exclui forks, arquivados, o README de perfil e A.P.S (já apresentado). Atualiza ao abrir, a cada cinco minutos e ao voltar à aba, com intervalo mínimo de um minuto entre consultas e respeito aos limites da API. Mantém os cards já carregados se houver falha. Não requer token para repositórios públicos; está sujeito aos limites da API.
+- Spotify: mostra a reprodução da autora por uma função do Netlify. Nenhum visitante precisa conectar uma conta; os tokens nunca são enviados ao front. Consulta a cada 30 segundos, com cache de 15 segundos no servidor e respeito aos limites da API. Quando a reprodução está pausada, mostra que Gabi está offline.
+
+### Ativar a música pública da autora
+
+1. No Spotify Dashboard do seu aplicativo, adicione a Redirect URI exata: http://127.0.0.1:8888/callback/ . A autora precisa ter acesso ao app conforme as regras do Spotify.
+2. Execute npm run spotify:connect e abra o endereço exibido para autorizar sua própria conta.
+3. O comando salva SPOTIFY_CLIENT_ID e SPOTIFY_REFRESH_TOKEN em .env.local, ignorado pelo Git. Não compartilhe esse arquivo nem coloque essas variáveis com prefixo VITE_.
+4. Para o site publicado, configure essas duas variáveis nas variáveis de ambiente do Netlify, disponíveis para Functions, e publique novamente. Não é necessário Client Secret, pois a autorização usa PKCE.
+5. Para testar localmente, execute npm run dev e toque uma música no Spotify. O Vite encaminha a mesma rota da função usando .env.local.
+
+Os arquivos existentes continuam no lugar. As pastas netlify/functions e scripts foram acrescentadas para a integração protegida e a autorização local.
 
 ## Direitos autorais e condições de uso
 
