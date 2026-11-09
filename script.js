@@ -40,7 +40,8 @@ function organizeGithubProjects(data) {
   const eligible = data.filter(repo => {
     const name = repo.name.toLowerCase().replace(/[^a-z0-9]/g, '');
     const isAps = name.startsWith('aps') || name.includes('acervodeprojetossenac');
-    return !repo.fork && !repo.archived && !isAps && !['gabriellemnunes', 'listadetarefas'].includes(name);
+    const isFeatured = Object.hasOwn(projectPresentation, repo.name.toLowerCase()) || ['biblioteca', 'bibliotecafront'].includes(name);
+    return !repo.fork && !repo.archived && !isAps && isFeatured;
   });
   const libraryRepos = eligible.filter(repo => ['biblioteca', 'biblioteca-front'].includes(repo.name.toLowerCase()));
   let libraryAdded = false;
@@ -285,5 +286,6 @@ function App() {
   </main><footer className="site-footer"><span>© {new Date().getFullYear()} Gabrielle Mendes</span><span className="footer-note">design autoral & um pouco de café <img className="coffee-icon" src="/assets/icons/coffee.svg" alt="" aria-hidden="true" /></span><a className="back-to-top" href="#home">Voltar ao topo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6" /></svg></a></footer></>;
 }
 createRoot(document.getElementById('root')).render(<App />);
+
 
 

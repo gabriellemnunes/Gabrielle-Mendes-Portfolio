@@ -78,7 +78,7 @@ index.html, script.js (componentes React), style.css, assets/ e callback/ contin
 
 ### Integrações
 
-- GitHub: consulta os repositórios públicos ordenados pelo push mais recente e exibe até seis cards na mesma grade dos projetos autorais. Exclui forks, arquivados, o README de perfil e A.P.S (já apresentado). Atualiza ao abrir, a cada cinco minutos e ao voltar à aba, com intervalo mínimo de um minuto entre consultas e respeito aos limites da API. Mantém os cards já carregados se houver falha. Não requer token para repositórios públicos; está sujeito aos limites da API.
+- GitHub: atualiza os dados somente dos projetos principais selecionados: Portfólio, Rick and Morty, Recordar e Biblioteca. Os repositórios front-end e back-end da Biblioteca aparecem juntos. NutriTea, Batuka e A.P.S permanecem nos cards autorais. Repositórios antigos ou novos fora dessa seleção não entram automaticamente. Atualiza ao abrir, a cada cinco minutos e ao voltar à aba, com intervalo mínimo de um minuto entre consultas e respeito aos limites da API. Mantém os cards já carregados se houver falha. Não requer token para repositórios públicos; está sujeito aos limites da API.
 - Spotify: mostra a reprodução da autora por uma função do Netlify. Nenhum visitante precisa conectar uma conta; os tokens nunca são enviados ao front. Consulta a cada 30 segundos, com cache de 15 segundos no servidor e respeito aos limites da API. Quando a reprodução está pausada, mostra que Gabi está offline.
 
 ### Ativar a música pública da autora
@@ -123,3 +123,4 @@ Desenvolvimento web e design de interfaces.
 - LinkedIn: [Gabrielle Mendes](https://www.linkedin.com/in/gabrielle-mendes-a45684384/)
 - E-mail: gabriellemendesn@gmail.com
 - https://gabimdev.netlify.app/
+
