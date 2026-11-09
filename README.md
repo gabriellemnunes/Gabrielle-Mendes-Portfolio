@@ -11,7 +11,7 @@ O site apresenta:
 
 - informações sobre mim;
 - formação e áreas de interesse;
-- projetos acadêmicos e pessoais em um carrossel de cartas;
+- projetos acadêmicos e pessoais em uma grade de cards compactos;
 - tecnologias utilizadas;
 - links profissionais;
 - formas de contato.
@@ -72,9 +72,9 @@ Abra o endereço exibido pelo Vite (normalmente http://127.0.0.1:5173). O React 
 
 Para gerar a versão de produção: `npm run build`. Para conferi-la: `npm run preview`. O Netlify usa o comando de build e a pasta dist, definidos em netlify.toml.
 
-### Navegação dos projetos
+### Apresentação dos projetos
 
-Um projeto por vez, com setas, indicadores e gesto de arrastar. Também aceita as setas do teclado, Home e End. Os filtros reiniciam na primeira carta e não há passagem automática. A preferência por movimento reduzido é respeitada.
+Grade responsiva de cards compactos, com filtros por Design e Desenvolvimento. Biblioteca mantém os dois repositórios no mesmo card.
 
 ### Organização preservada
 
