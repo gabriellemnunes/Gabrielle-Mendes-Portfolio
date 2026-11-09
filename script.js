@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 // O navegador recebe apenas os dados públicos da música, nunca credenciais.
@@ -56,7 +56,7 @@ function organizeGithubProjects(data) {
 }
 
 // Atualiza na abertura, a cada cinco minutos e ao voltar à aba.
-function GithubProjects({ filter }) {
+function GithubProjects({ filter, children }) {
   const [repos, setRepos] = useState([]);
   const [status, setStatus] = useState('loading');
   const [attempt, setAttempt] = useState(0);
@@ -89,13 +89,60 @@ function GithubProjects({ filter }) {
     document.addEventListener('visibilitychange', load);
     return () => { disposed = true; controller.abort(); clearInterval(timer); window.removeEventListener('focus', load); document.removeEventListener('visibilitychange', load); };
   }, [attempt]);
-  return <>
-    {repos.map(repo => <article className="project-card repository-card" key={repo.id} hidden={filter === 'Design'}>
+  const repositoryCards = repos.map(repo => <article className="project-card repository-card" key={repo.id} hidden={filter === 'Design'}>
       {repo.image ? <img className="project-preview" src={'/assets/projects/' + repo.image} alt={'Tela do projeto ' + repo.title} loading="lazy" decoding="async" /> : <div className="repository-cover" aria-hidden="true"><span className="repository-window"><i /><i /><i /></span><img src="/assets/icons/github.svg" alt="" /><span className="repository-monogram">{repo.name.split(/[-_.]+/).filter(Boolean).slice(0,2).map(word => word[0]).join('').toUpperCase()}</span><span className="repository-cover-label">código & criatividade</span></div>}
       <div className="project-info"><h3>{repo.title || repo.name.replaceAll('-', ' ')}</h3><p>{repo.description || 'Um projeto de desenvolvimento e aprendizado. Explore o código e os detalhes no GitHub.'}</p><ul className="project-tags"><li>{repo.language || 'CÓDIGO'}</li><li>GITHUB</li>{repo.topics?.slice(0,2).map(topic => <li key={topic}>{topic}</li>)}</ul><div className="project-actions">{repo.links.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label + ' — ' + (repo.title || repo.name)}>{link.label} ↗</a>)}</div></div>
-    </article>)}
+    </article>);
+  const cards = [...React.Children.toArray(children).filter(card => !card.props.hidden), ...(filter === 'Design' ? [] : repositoryCards)];
+  return <><ProjectDeck cards={cards} filter={filter} />
     {filter !== 'Design' && <div className="projects-sync" role="status" aria-live="polite">{status === 'loading' ? 'Buscando projetos recentes…' : status === 'error' ? <><span>Não foi possível atualizar o GitHub agora.</span> <button type="button" onClick={() => setAttempt(attempt + 1)}>Tentar novamente</button> <a href="https://github.com/gabriellemnunes" target="_blank" rel="noopener noreferrer">Ver no GitHub ↗</a></> : 'Projetos recentes sincronizados com o GitHub · atualização automática'}</div>}
   </>;
+}
+
+
+function ProjectDeck({ cards, filter }) {
+  const [position, setPosition] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const start = useRef(null);
+  useEffect(() => { setPosition(0); }, [filter]);
+  const index = Math.max(0, Math.min(position, cards.length - 1));
+  const move = next => {
+    const target = Math.max(0, Math.min(next, cards.length - 1));
+    setDirection(target >= index ? 1 : -1);
+    setPosition(target);
+  };
+  const title = cards[index]?.props.children?.find?.(child => child?.props?.className === 'project-info')?.props.children?.find?.(child => child?.type === 'h3')?.props.children;
+  return <div className="project-deck" role="region" aria-roledescription="carrossel" aria-label="Projetos em cartas" onKeyDown={event => {
+    if (event.target.closest('a')) return;
+    if (event.key === 'ArrowRight') { event.preventDefault(); move(index + 1); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); move(index - 1); }
+    if (event.key === 'Home') { event.preventDefault(); move(0); }
+    if (event.key === 'End') { event.preventDefault(); move(cards.length - 1); }
+  }}>
+    <div className="deck-stage" tabIndex="0" aria-label="Use as setas do teclado ou arraste para passar os projetos" onPointerDown={event => {
+      if (event.button !== 0 || event.target.closest('a, button')) return;
+      start.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }} onPointerUp={event => {
+      const initial = start.current; start.current = null;
+      if (!initial || initial.id !== event.pointerId) return;
+      const dx = event.clientX - initial.x, dy = event.clientY - initial.y;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) move(index + (dx < 0 ? 1 : -1));
+    }} onPointerCancel={() => { start.current = null; }}>
+      <div className="deck-back deck-back-far" aria-hidden="true"><span>G<span className="deck-accent">A</span>BI</span></div>
+      <div className="deck-back deck-back-near" aria-hidden="true"><span>design & código</span></div>
+      <div className="deck-current" key={cards[index]?.key || index} style={{ '--deck-direction': direction }} role="group" aria-roledescription="carta" aria-label={'Projeto ' + (index + 1) + ' de ' + cards.length}>
+        {cards[index]}
+      </div>
+    </div>
+    <div className="deck-navigation">
+      <button className="deck-arrow" type="button" onClick={() => move(index - 1)} disabled={index === 0} aria-label="Projeto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg></button>
+      <span className="deck-counter" role="status" aria-live="polite" aria-atomic="true"><strong>{String(index + 1).padStart(2, '0')}</strong><span> / {String(cards.length).padStart(2, '0')}</span><span className="sr-only">{typeof title === 'string' ? ' — ' + title : ''}</span></span>
+      <button className="deck-arrow" type="button" onClick={() => move(index + 1)} disabled={index === cards.length - 1} aria-label="Próximo projeto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg></button>
+    </div>
+    <div className="deck-dots" role="group" aria-label="Escolher projeto">{cards.map((card, number) => <button key={card.key || number} type="button" aria-label={'Ir para projeto ' + (number + 1)} aria-current={number === index ? 'true' : undefined} onClick={() => move(number)} />)}</div>
+    <p className="deck-hint">um projeto por vez · arraste para descobrir</p>
+  </div>;
 }
 
 // Recurso já existente na versão publicada; a localização fica apenas no navegador.
@@ -219,7 +266,7 @@ function App() {
       <div className="page-width">
         <p className="section-kicker">meus trabalhos</p>
         <h2>Projects</h2>
-        <div className="project-filters" role="group" aria-label="Filtrar projetos">{["Todos", "Design", "Desenvolvimento"].map(item => <button key={item} type="button" aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="projects-grid">
+        <div className="project-filters" role="group" aria-label="Filtrar projetos">{["Todos", "Design", "Desenvolvimento"].map(item => <button key={item} type="button" aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}</div><GithubProjects filter={filter}>
           <article className="project-card" hidden={filter !== 'Todos' && filter !== 'Design'}>
             <img src="assets/projects/Nutritea.png" alt="NutriTea" loading="lazy" decoding="async" />
             <div className="project-info">
@@ -249,8 +296,7 @@ function App() {
               <a target="_blank" rel="noopener noreferrer" className="project-link" href="https://github.com/gabriellemnunes/A.P.S---Acervo-de-Projetos-Senac" aria-label="Ver projeto A.P.S">Ver projeto ↗</a>
             </div>
           </article>
-          <GithubProjects filter={filter} />
-        </div>
+        </GithubProjects>
   </div>
 </section>
 

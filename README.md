@@ -11,7 +11,7 @@ O site apresenta:
 
 - informações sobre mim;
 - formação e áreas de interesse;
-- projetos acadêmicos e pessoais;
+- projetos acadêmicos e pessoais em um carrossel de cartas;
 - tecnologias utilizadas;
 - links profissionais;
 - formas de contato.
@@ -72,6 +72,10 @@ Abra o endereço exibido pelo Vite (normalmente http://127.0.0.1:5173). O React 
 
 Para gerar a versão de produção: `npm run build`. Para conferi-la: `npm run preview`. O Netlify usa o comando de build e a pasta dist, definidos em netlify.toml.
 
+### Navegação dos projetos
+
+Um projeto por vez, com setas, indicadores e gesto de arrastar. Também aceita as setas do teclado, Home e End. Os filtros reiniciam na primeira carta e não há passagem automática. A preferência por movimento reduzido é respeitada.
+
 ### Organização preservada
 
 index.html, script.js (componentes React), style.css, assets/ e callback/ continuam nos mesmos lugares. Foram adicionados apenas os arquivos de dependências/configuração necessários. Nenhuma pasta src/ foi criada.
@@ -123,4 +127,5 @@ Desenvolvimento web e design de interfaces.
 - LinkedIn: [Gabrielle Mendes](https://www.linkedin.com/in/gabrielle-mendes-a45684384/)
 - E-mail: gabriellemendesn@gmail.com
 - https://gabimdev.netlify.app/
+
 
