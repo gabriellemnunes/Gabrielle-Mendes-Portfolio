@@ -277,3 +277,9 @@ button { cursor: pointer; }
 .repository-card .project-info { display: flex; flex-direction: column; padding-bottom: 1.25rem; }
 .repository-card .project-info p { flex: 1; }
 .contact-art-caption { left: 0; right: 0; width: 100%; text-align: center; padding-inline: .5rem; line-height: 1.5; }
+
+/* As capas preenchem o quadro inteiro, com recorte centralizado. */
+.project-card > img, .project-card > .project-preview, .project-card > .batuka-image { object-fit: cover; object-position: center; padding: 0; }
+
+.image-filter-definitions { position: absolute; pointer-events: none; }
+.project-card > img { filter: url(#project-sharpness); }
