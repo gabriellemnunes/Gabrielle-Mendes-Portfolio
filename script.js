@@ -30,6 +30,26 @@ function SpotifyPlayer() {
   </a></div>;
 }
 
+// Imagens autorais associadas aos repositórios; novos projetos continuam vindo da API.
+const projectPresentation = {
+  'gabrielle-mendes-portfolio': { title: 'Gabrielle Mendes · Portfólio', image: 'portfolio.png' },
+  'rickandmorty-app-fontes': { title: 'Rick and Morty', image: 'rick-and-morty.png', description: 'Consulta de personagens do universo de Rick and Morty, com busca e informações sobre cada personagem.' },
+  'backend-recordar': { title: 'Recordar', image: 'recordar.png', description: 'Projeto Recordar, com telas de acesso para usuários, médicos e administradores.' }
+};
+function organizeGithubProjects(data) {
+  const eligible = data.filter(repo => !repo.fork && !repo.archived && !['gabriellemnunes', 'a.p.s---acervo-de-projetos-senac', 'lista-de-tarefas'].includes(repo.name.toLowerCase()));
+  const libraryRepos = eligible.filter(repo => ['biblioteca', 'biblioteca-front'].includes(repo.name.toLowerCase()));
+  let libraryAdded = false;
+  return eligible.flatMap(repo => {
+    if (libraryRepos.includes(repo)) {
+      if (libraryAdded) return [];
+      libraryAdded = true;
+      return [{ ...repo, id: 'biblioteca-completa', title: 'Biblioteca', image: 'biblioteca.png', description: 'Gerenciamento de um acervo de livros, com cadastro, consulta e organização. Front-end e back-end reunidos em um único projeto.', links: libraryRepos.map(item => ({ label: item.name.toLowerCase() === 'biblioteca-front' ? 'Front-end' : 'Back-end', url: item.html_url })) }];
+    }
+    return [{ ...repo, ...projectPresentation[repo.name.toLowerCase()], links: [{label: 'Ver projeto', url: repo.html_url}] }];
+  }).slice(0,6);
+}
+
 // Atualiza na abertura, a cada cinco minutos e ao voltar à aba.
 function GithubProjects({ filter }) {
   const [repos, setRepos] = useState([]);
@@ -52,7 +72,7 @@ function GithubProjects({ filter }) {
         }
         const data = await response.json();
         if (!Array.isArray(data)) throw new Error('Resposta inválida');
-        const projects = data.filter(repo => !repo.fork && !repo.archived && repo.name.toLowerCase() !== 'gabriellemnunes' && repo.name !== 'A.P.S---Acervo-de-Projetos-Senac').slice(0,6);
+        const projects = organizeGithubProjects(data);
         if (!disposed) { setRepos(projects); setStatus('ready'); }
         nextRequest = Date.now() + 60000;
       } catch { if (!disposed) setStatus('error'); }
@@ -66,8 +86,8 @@ function GithubProjects({ filter }) {
   }, [attempt]);
   return <>
     {repos.map(repo => <article className="project-card repository-card" key={repo.id} hidden={filter === 'Design'}>
-      <div className="repository-cover" aria-hidden="true"><span className="repository-window"><i /><i /><i /></span><img src="/assets/icons/github.svg" alt="" /><span className="repository-monogram">{repo.name.split(/[-_.]+/).filter(Boolean).slice(0,2).map(word => word[0]).join('').toUpperCase()}</span><span className="repository-cover-label">código & criatividade</span></div>
-      <div className="project-info"><h3>{repo.name.replaceAll('-', ' ')}</h3><p>{repo.description || 'Um projeto de desenvolvimento e aprendizado. Explore o código e os detalhes no GitHub.'}</p><ul className="project-tags"><li>{repo.language || 'CÓDIGO'}</li><li>GITHUB</li>{repo.topics?.slice(0,2).map(topic => <li key={topic}>{topic}</li>)}</ul><a className="project-link" href={repo.html_url} target="_blank" rel="noopener noreferrer" aria-label={'Ver projeto ' + repo.name}>Ver projeto ↗</a></div>
+      {repo.image ? <img className="project-preview" src={'/assets/projects/' + repo.image} alt={'Tela do projeto ' + repo.title} loading="lazy" decoding="async" /> : <div className="repository-cover" aria-hidden="true"><span className="repository-window"><i /><i /><i /></span><img src="/assets/icons/github.svg" alt="" /><span className="repository-monogram">{repo.name.split(/[-_.]+/).filter(Boolean).slice(0,2).map(word => word[0]).join('').toUpperCase()}</span><span className="repository-cover-label">código & criatividade</span></div>}
+      <div className="project-info"><h3>{repo.title || repo.name.replaceAll('-', ' ')}</h3><p>{repo.description || 'Um projeto de desenvolvimento e aprendizado. Explore o código e os detalhes no GitHub.'}</p><ul className="project-tags"><li>{repo.language || 'CÓDIGO'}</li><li>GITHUB</li>{repo.topics?.slice(0,2).map(topic => <li key={topic}>{topic}</li>)}</ul><div className="project-actions">{repo.links.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.label + ' — ' + (repo.title || repo.name)}>{link.label} ↗</a>)}</div></div>
     </article>)}
     {filter !== 'Design' && <div className="projects-sync" role="status" aria-live="polite">{status === 'loading' ? 'Buscando projetos recentes…' : status === 'error' ? <><span>Não foi possível atualizar o GitHub agora.</span> <button type="button" onClick={() => setAttempt(attempt + 1)}>Tentar novamente</button> <a href="https://github.com/gabriellemnunes" target="_blank" rel="noopener noreferrer">Ver no GitHub ↗</a></> : 'Projetos recentes sincronizados com o GitHub · atualização automática'}</div>}
   </>;
@@ -196,7 +216,7 @@ function App() {
         <h2>Projects</h2>
         <div className="project-filters" role="group" aria-label="Filtrar projetos">{["Todos", "Design", "Desenvolvimento"].map(item => <button key={item} type="button" aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="projects-grid">
           <article className="project-card" hidden={filter !== 'Todos' && filter !== 'Design'}>
-            <img src="assets/projects/Nutritea.png" alt="NutriTea" />
+            <img src="assets/projects/Nutritea.png" alt="NutriTea" loading="lazy" decoding="async" />
             <div className="project-info">
               <h3>NutriTea</h3>
               <p>Plataforma voltada ao acompanhamento nutricional de pessoas com TEA, facilitando o registro e acompanhamento de seletividades alimentares.</p>
@@ -206,7 +226,7 @@ function App() {
           </article>
 
           <article className="project-card" hidden={filter !== 'Todos' && filter !== 'Design'}>
-            <img src="assets/projects/batuka.png" alt="Batuka" />
+            <img className="batuka-image" src="assets/projects/batuka.png" alt="Batuka" loading="lazy" decoding="async" />
             <div className="project-info">
               <h3>Batuka</h3>
               <p>Plataforma de educação musical infantil que apresenta ritmos brasileiros de forma acessível, divertida e interativa.</p>
@@ -216,7 +236,7 @@ function App() {
           </article>
 
           <article className="project-card" hidden={filter !== 'Todos' && filter !== 'Desenvolvimento'}>
-            <img src="assets/projects/aps.png" alt="A.P.S — Acervo de Projetos Senac" />
+            <img src="assets/projects/aps.png" alt="A.P.S — Acervo de Projetos Senac" loading="lazy" decoding="async" />
             <div className="project-info">
               <h3>A.P.S</h3>
               <p>Plataforma criada para centralizar e organizar projetos acadêmicos, facilitando o acesso e gerenciamento das produções do Senac.</p>
