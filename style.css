@@ -266,3 +266,14 @@ button { cursor: pointer; }
 .localizacao p { line-height: 1.6; }
 #btnLocalizacao { padding: .8rem 1.2rem; border: 1px solid var(--cream); border-radius: 999px; background: var(--cream); color: var(--dark-brown); }
 #resultadoLocalizacao { margin-top: 1rem; }
+
+/* Prévias completas, sem recorte ou ampliação excessiva. */
+.project-card > img { object-fit: contain; object-position: center; flex-shrink: 0; background: #171119; }
+.project-card > .batuka-image { padding: .75rem; background: #7130d5; object-position: center center; }
+.project-card > .project-preview { width: 100%; aspect-ratio: 1.9 / 1; background: #110f16; }
+.project-actions { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; margin-top: 1.5rem; color: var(--orange); font-size: .8rem; font-weight: 700; }
+.project-actions a { padding-block: .4rem; }
+.project-actions a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.repository-card .project-info { display: flex; flex-direction: column; padding-bottom: 1.25rem; }
+.repository-card .project-info p { flex: 1; }
+.contact-art-caption { left: 0; right: 0; width: 100%; text-align: center; padding-inline: .5rem; line-height: 1.5; }
