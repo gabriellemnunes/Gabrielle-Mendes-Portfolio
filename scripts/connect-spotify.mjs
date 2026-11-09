@@ -2,7 +2,8 @@
 import http from 'node:http';
 import { randomBytes, createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
-const clientId = process.env.SPOTIFY_CLIENT_ID || 'bd0eaa4b0e964de9b5b528bdd9f9ce5f';
+const clientId = process.env.SPOTIFY_CLIENT_ID || (existsSync('.env.local') ? readFileSync('.env.local', 'utf8').match(/^SPOTIFY_CLIENT_ID=(.+)$/m)?.[1]?.trim() : null);
+if (!clientId) throw new Error('Defina SPOTIFY_CLIENT_ID no arquivo .env.local antes de conectar.');
 const redirectUri = 'http://127.0.0.1:8888/callback/';
 const verifier = randomBytes(48).toString('base64url');
 const state = randomBytes(24).toString('base64url');
@@ -30,3 +31,4 @@ const server = http.createServer(async (req, res) => {
 });
 server.listen(8888, '127.0.0.1', () => { console.log('Cadastre no Spotify Dashboard: ' + redirectUri); console.log('Abra este endereço para autorizar SUA conta:'); console.log(auth.href); });
 setTimeout(() => server.close(), 10 * 60 * 1000).unref();
+
