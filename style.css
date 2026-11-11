@@ -244,7 +244,7 @@ button { cursor: pointer; }
 .contact-arrow { width: 20px; height: 20px; flex: 0 0 20px; color: var(--beige); }
 .contact-art { min-height: 480px; transform: none; display: grid; place-items: center; }
 .contact-star { position: absolute; inset: auto; width: 100%; height: auto; font-size: inherit; opacity: .85; transform: rotate(-8deg); }
-.contact-art img { inset: 0; padding: 1rem 0 2rem; }
+.contact-art img { inset: 0; padding: 1rem 0 3.5rem; }
 .contact-art-caption { position: absolute; bottom: 0; color: var(--beige); font-family: monospace; font-size: .8rem; letter-spacing: .04em; }
 @media (max-width: 760px) {
   .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; margin-top: 2.5rem; }
@@ -261,11 +261,6 @@ button { cursor: pointer; }
 .main-nav .spotify-player .spotify-cover { width: 38px; height: 38px; }
 .main-nav .spotify-player:hover { transform: none; color: var(--cream); }
 
-.localizacao { padding: 4rem 1.5rem; text-align: center; color: var(--cream); background: var(--dark-brown); }
-.localizacao h2 { font-size: clamp(2rem, 4vw, 3rem); }
-.localizacao p { line-height: 1.6; }
-#btnLocalizacao { padding: .8rem 1.2rem; border: 1px solid var(--cream); border-radius: 999px; background: var(--cream); color: var(--dark-brown); }
-#resultadoLocalizacao { margin-top: 1rem; }
 
 /* Prévias completas, sem recorte ou ampliação excessiva. */
 .project-card > img { object-fit: contain; object-position: center; flex-shrink: 0; background: #171119; }
@@ -277,6 +272,8 @@ button { cursor: pointer; }
 .repository-card .project-info { display: flex; flex-direction: column; padding-bottom: 1.25rem; }
 .repository-card .project-info p { flex: 1; }
 .contact-art-caption { left: 0; right: 0; width: 100%; text-align: center; padding-inline: .5rem; line-height: 1.5; }
+.contact-art-caption strong { display: block; color: var(--cream); font-weight: 400; }
+.contact-art-caption > span { display: block; color: var(--beige); }
 
 /* As capas preenchem o quadro inteiro, com recorte centralizado. */
 .project-card > img, .project-card > .project-preview, .project-card > .batuka-image { object-fit: cover; object-position: center; padding: 0; }
