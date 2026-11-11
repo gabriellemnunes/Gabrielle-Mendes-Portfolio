@@ -266,7 +266,7 @@ function App() {
           <div className="contact-art" aria-hidden="true">
             <svg className="contact-star" viewBox="0 0 100 100"><path d="m50 0 13 31 34-9-20 28 20 28-34-9-13 31-13-31-34 9 20-28L3 22l34 9Z" fill="currentColor" /></svg>
             <img src="assets/images/contact-character.png" alt="" />
-            <span className="contact-art-caption"><strong>De Recife para o mundo,</strong><span>uma ideia de cada vez.</span></span>
+            <span className="contact-art-caption">do Recife, com criatividade.</span>
           </div>
         </div>
       </div>
